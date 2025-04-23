@@ -22,7 +22,7 @@ assign DataD_top = (WBSel_top == 2'b00) ? DataR_top :
                    (WBSel_top == 2'b01) ? ALU_out_top :
                    PC_Plus4_top;
 
-Control_Unit Control_logic(
+Control_Unit Control_logic_inst(
     .Inst   (Instruction_out_top),
     .BrEq   (BrEq_top),
     .BrLt   (BrLt_top),
@@ -37,25 +37,25 @@ Control_Unit Control_logic(
     .WBSel  (WBSel_top)
 );
 
-Program_Counter PC(
+Program_Counter PC_inst(
     .clk    (clk),
     .rst_n  (rst_n),
     .PC_in  (PC_in_top),
     .PC_out (PC_out_top)
 );
 
-Instruction_Memory IMEM(
+Instruction_Memory IMEM_inst(
     .addr (PC_out_top), 
     .inst (Instruction_out_top)
 );
 
-Immediate_Generator Imm_Gen(
-    .Inst   (Instruction_out_top[31:20]),
-    .ImmSel (ImmSel_top),
-    .Imm    (Imm_top)
+Imm_Gen Imm_Gen_inst(
+    .imm     (Instruction_out_top[31:20]),
+    .opcode  (ImmSel_top),
+    .imm_out (Imm_top)
 );
 
-Registers_File Reg (   
+RegisterFile Reg_inst (   
     .clk     (clk),
     .rst_n   (rst_n),
     .AddrA   (Instruction_out_top[19:15]),
@@ -67,22 +67,22 @@ Registers_File Reg (
     .DataB   (DataB_top)
 );
 
-Branch_Comp Branch_Comp(
-    .dataA (DataA_top),
-    .dataB (DataB_top),
+Branch_Comp Branch_Comp_inst(
+    .operand_0 (DataA_top),
+    .operand_1 (DataB_top),
     .BrUn  (BrUn_top),
     .BrEq  (BrEq_top),
     .BrLt  (BrLt_top)
 );
 
-ALU ALU_mod (   
-    .A       (Mux_ALU_DataA_top),
-    .B       (Mux_ALU_DataB_top),
-    .ALUSel  (ALUSel_top),
-    .ALU_out (ALU_out_top)
+ALU ALU_mod_inst (   
+    .operand_0 (Mux_ALU_DataA_top),
+    .operand_1 (Mux_ALU_DataB_top),
+    .ALUSel    (ALUSel_top),
+    .result    (ALU_out_top)
 );
 
-Data_Memory Dmem (   
+Data_Memory Dmem_inst (   
     .clk    (clk),
     .rst_n  (rst_n),
     .MemRW  (MemRW_top),
