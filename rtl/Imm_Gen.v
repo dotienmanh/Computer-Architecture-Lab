@@ -1,24 +1,40 @@
-module Imm_Gen(
-    input [2:0] opcode,
-    input [20:0] imm,
-    output reg [31:0] imm_out
+module Immediate_Generator (
+    Inst,
+    ImmSel,
+    Imm
 );
 
-localparam I_S_FORMAT = 3'b000;
-localparam B_FORMAT = 3'b001;
-localparam J_FORMAT = 3'b010;
-localparam U_FORMAT = 3'b011;
+parameter R = 3'b000;
+parameter I = 3'b001;
+parameter S = 3'b010;
+parameter B = 3'b011;
+parameter U = 3'b100;
+parameter J = 3'b101;
 
+input [31:0] Inst;
+input [2:0] ImmSel;
+output reg [31:0] Imm;
 
 always @(*) begin
-    case (opcode)
-        I_S_FORMAT: imm_out = { {20{imm[11]}}, imm[11:0] };
-        B_FORMAT: imm_out = { {19{imm[11]}}, imm[11:0], 1'b0 }; 
-        J_FORMAT: imm_out = { {11{imm[20]}}, imm[19:0], 1'b0 };
-        U_FORMAT: imm_out = { imm, 12'b0}; 
-        default: imm_out = 32'b0; 
+    case (ImmSel)
+        I: begin
+            Imm={{21{Inst[31]}}, Inst[30:20]};
+        end
+        S: begin
+            Imm={{21{Inst[31]}}, Inst[30:25], Inst[11:7]};
+        end
+        U: begin
+            Imm={Inst[31], Inst[30:12], {12{1'b0}}};
+        end
+        B: begin
+            Imm={{20{Inst[31]}}, Inst[7], Inst[30:25], Inst[11:8], 1'b0};
+        end
+        J: begin
+            Imm={{12{Inst[31]}}, Inst[19:12], Inst[20], Inst[30:21], 1'b0};
+        end
+        default: 
+            Imm= 32'h00000000;
     endcase
 end
-
 
 endmodule
