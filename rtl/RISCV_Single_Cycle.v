@@ -23,7 +23,7 @@ assign DataD_top = (WBSel_top == 2'b00) ? DataR_top :
                    (WBSel_top == 2'b01) ? ALU_out_top :
                    PC_Plus4_top;
 
-assign Addr_instr_mem = {2{'b0}, PC_out_top[31:2]};
+assign Addr_instr_mem = {2'b0, PC_out_top[31:2]};
 
 control_unit Control_logic_inst(
     .opcode_eff (Instruction_out_top[6:0]),
