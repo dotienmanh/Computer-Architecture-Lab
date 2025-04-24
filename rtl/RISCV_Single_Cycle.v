@@ -4,6 +4,7 @@ input clk;
 input rst_n;
 
 wire [31:0] PC_in_top, PC_out_top, Instruction_out_top, PC_Plus4_top;
+wire [31:0] Addr_instr_mem;
 wire [31:0] DataA_top, DataB_top, DataD_top, ALU_out_top, Imm_top, Mux_ALU_DataA_top, Mux_ALU_DataB_top, DataR_top;
 wire [3:0] ALUSel_top;
 wire PCSel_top, RegWEn_top, MemRW_top, Asel_top, Bsel_top, BrUn_top, BrEq_top, BrLt_top;
@@ -21,6 +22,8 @@ assign Mux_ALU_DataB_top = Bsel_top ? Imm_top : DataB_top;
 assign DataD_top = (WBSel_top == 2'b00) ? DataR_top :
                    (WBSel_top == 2'b01) ? ALU_out_top :
                    PC_Plus4_top;
+
+assign Addr_instr_mem = {2{'b0}, PC_out_top[31:2]};
 
 control_unit Control_logic_inst(
     .opcode_eff (Instruction_out_top[6:0]),
@@ -47,7 +50,7 @@ Program_Counter PC_inst(
 );
 
 Instruction_Memory IMEM_inst(
-    .addr (PC_out_top), 
+    .addr (Addr_instr_mem), 
     .inst (Instruction_out_top)
 );
 
