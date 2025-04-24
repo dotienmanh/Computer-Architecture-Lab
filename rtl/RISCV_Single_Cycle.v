@@ -22,18 +22,18 @@ assign DataD_top = (WBSel_top == 2'b00) ? DataR_top :
                    (WBSel_top == 2'b01) ? ALU_out_top :
                    PC_Plus4_top;
 
-Control_Unit Control_logic_inst(
+control_unit Control_logic_inst(
     .opcode_eff (Instruction_out_top[6:0]),
     .funct7_fif (Instruction_out_top[30]),
     .funct3     (Instruction_out_top[14:12]),
     .BrEq   (BrEq_top),
-    .BrLt   (BrLt_top),
+    .BrLT   (BrLt_top),
     .PCSel  (PCSel_top),
     .ImmSel (ImmSel_top),
     .RegWEn (RegWEn_top),
     .BrUn   (BrUn_top),
-    .Asel   (Asel_top),
-    .Bsel   (Bsel_top),
+    .ASel   (Asel_top),
+    .BSel   (Bsel_top),
     .ALUSel (ALUSel_top),
     .MemRW  (MemRW_top),
     .WBSel  (WBSel_top)
@@ -58,15 +58,15 @@ Immediate_Generator Imm_Gen_inst(
 );
 
 RegisterFile Reg_inst (   
-    .clk     (clk),
-    .rst_n   (rst_n),
-    .AddrA   (Instruction_out_top[19:15]),
-    .AddrB   (Instruction_out_top[24:20]),
-    .AddrD   (Instruction_out_top[11:7]),
-    .DataD   (DataD_top),
-    .RegWEn  (RegWEn_top),
-    .DataA   (DataA_top),
-    .DataB   (DataB_top)
+    .clk       (clk),
+    .reset     (rst_n),
+    .addrA     (Instruction_out_top[19:15]),
+    .addrB     (Instruction_out_top[24:20]),
+    .addrD     (Instruction_out_top[11:7]),
+    .dataD     (DataD_top),
+    .reg_write (RegWEn_top),
+    .dataA     (DataA_top),
+    .dataB     (DataB_top)
 );
 
 Branch_Comp Branch_Comp_inst(
@@ -74,19 +74,18 @@ Branch_Comp Branch_Comp_inst(
     .operand_1 (DataB_top),
     .BrUn  (BrUn_top),
     .BrEq  (BrEq_top),
-    .BrLt  (BrLt_top)
+    .BrLT  (BrLt_top)
 );
 
 ALU ALU_mod_inst (   
     .operand_0 (Mux_ALU_DataA_top),
     .operand_1 (Mux_ALU_DataB_top),
-    .ALUSel    (ALUSel_top),
+    .ALU_Sel   (ALUSel_top),
     .result    (ALU_out_top)
 );
 
 Data_Memory Dmem_inst (   
     .clk    (clk),
-    .rst_n  (rst_n),
     .MemRW  (MemRW_top),
     .addr   (ALU_out_top),
     .DataW  (DataB_top),
