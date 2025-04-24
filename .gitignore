@@ -1,0 +1,15 @@
+# Simulation outputs
+sim/log/
+*.vcd
+*.out
+*.log
+
+# Synthesis outputs
+synthesis/reports/
+synthesis/netlists/
+
+# Others
+*.swp
+*.bak
+__pycache__/
+*.pyc
