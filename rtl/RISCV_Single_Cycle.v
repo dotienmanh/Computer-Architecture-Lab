@@ -23,15 +23,17 @@ assign DataD_top = (WBSel_top == 2'b00) ? DataR_top :
                    PC_Plus4_top;
 
 Control_Unit Control_logic_inst(
-    .Inst   (Instruction_out_top),
+    .opcode_eff (Instruction_out_top[6:0]),
+    .funct7_fif (Instruction_out_top[30]),
+    .funct3     (Instruction_out_top[14:12]),
     .BrEq   (BrEq_top),
     .BrLt   (BrLt_top),
     .PCSel  (PCSel_top),
     .ImmSel (ImmSel_top),
     .RegWEn (RegWEn_top),
     .BrUn   (BrUn_top),
-    .Bsel   (Bsel_top),
     .Asel   (Asel_top),
+    .Bsel   (Bsel_top),
     .ALUSel (ALUSel_top),
     .MemRW  (MemRW_top),
     .WBSel  (WBSel_top)
@@ -49,10 +51,10 @@ Instruction_Memory IMEM_inst(
     .inst (Instruction_out_top)
 );
 
-Imm_Gen Imm_Gen_inst(
-    .imm     (Instruction_out_top[31:20]),
-    .opcode  (ImmSel_top),
-    .imm_out (Imm_top)
+Immediate_Generator Imm_Gen_inst(
+    .Inst   (Instruction_out_top),
+    .ImmSel (ImmSel_top),
+    .Imm    (Imm_top)
 );
 
 RegisterFile Reg_inst (   
