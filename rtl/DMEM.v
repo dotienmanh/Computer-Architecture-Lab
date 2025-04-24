@@ -14,28 +14,28 @@ reg [31:0] Memory [255:0];
 // integer f;
 wire [2:0] ram_addr=addr[2:0];
 
-// initial
-//  begin
-//   $readmemb("./test.data", Memory);
+initial
+ begin
+  $readmemh("./mem/dmem_init.hex", Memory);
   
-//   // Open file for logging memory content
-//   f = $fopen("./test.o", "w");
+  // // Open file for logging memory content
+  // f = $fopen("./test.o", "w");
   
-//   // Log memory contents (first time)
-//   $fdisplay(f, "time = %d\n", $time);
-//   $fdisplay(f, "\tmemory[0] = %b", Memory[0]);
-//   $fdisplay(f, "\tmemory[1] = %b", Memory[1]);
-//   $fdisplay(f, "\tmemory[2] = %b", Memory[2]);
-//   $fdisplay(f, "\tmemory[3] = %b", Memory[3]);
-//   $fdisplay(f, "\tmemory[4] = %b", Memory[4]);
-//   $fdisplay(f, "\tmemory[5] = %b", Memory[5]);
-//   $fdisplay(f, "\tmemory[6] = %b", Memory[6]);
-//   $fdisplay(f, "\tmemory[7] = %b", Memory[7]);
+  // // Log memory contents (first time)
+  // $fdisplay(f, "time = %d\n", $time);
+  // $fdisplay(f, "\tmemory[0] = %b", Memory[0]);
+  // $fdisplay(f, "\tmemory[1] = %b", Memory[1]);
+  // $fdisplay(f, "\tmemory[2] = %b", Memory[2]);
+  // $fdisplay(f, "\tmemory[3] = %b", Memory[3]);
+  // $fdisplay(f, "\tmemory[4] = %b", Memory[4]);
+  // $fdisplay(f, "\tmemory[5] = %b", Memory[5]);
+  // $fdisplay(f, "\tmemory[6] = %b", Memory[6]);
+  // $fdisplay(f, "\tmemory[7] = %b", Memory[7]);
 
-//   #320; // Wait for 320 time units before closing the file
-//   $fclose(f);
+  // #320; // Wait for 320 time units before closing the file
+  // $fclose(f);
  
-//  end
+ end
  
  always @(posedge clk) begin
   if (!MemRW)   //When MemRW =0 , we want to write data

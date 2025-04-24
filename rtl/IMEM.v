@@ -7,7 +7,7 @@ module Instruction_Memory
 	reg [31:0] memory [255:0];
 	initial 
 	begin
-		$readmemb("./test.prog", memory ,0 ,LENGTH);  
+		$readmemh("./mem/imem.hex", memory ,0 ,LENGTH);  
 	end
 	assign inst = memory[addr] ;
 endmodule
