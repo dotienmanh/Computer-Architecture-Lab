@@ -14,19 +14,21 @@ wire MemRW_top;
 wire [1:0] WBSel_top;
 
 Control_unit CU(
+  .clk     (clk),
+  .rst_n   (rst_n),
   .Instr_D (Instr_D),
   .ImmSel  (ImmSel_top),
   .Instr_E (Instr_E),
-  .BrUn(BrUn_top),
-  .BrEq(BrEq_top),
-  .BrLT(BrLt_top),
-  .BSel(BSel_top),
-  .ASel(ASel_top),
-  .ALUSel(ALUSel_top),
-  .MemRW(MemRW_top),
-  .Instr_M(Instr_M),
-  .PCSel(PCSel_top),
-  .WBSel(WBSel_top)
+  .BrUn    (BrUn_top),
+  .BrEq    (BrEq_top),
+  .BrLT    (BrLt_top),
+  .BSel    (BSel_top),
+  .ASel    (ASel_top),
+  .ALUSel  (ALUSel_top),
+  .MemRW   (MemRW_top),
+  .Instr_M (Instr_M),
+  .PCSel   (PCSel_top),
+  .WBSel   (WBSel_top)
 );
 
 // Instruction Fetch
@@ -75,9 +77,9 @@ RegisterFile Reg(
 );
 
 Immediate_Generator Imm_Gen(
-  .Inst(Instr_D),
-  .ImmSel(ImmSel_top),
-  .Imm(Imm_D)
+  .Inst   (Instr_D),
+  .ImmSel (ImmSel_top),
+  .Imm    (Imm_D)
 );
 
 // Instruction Decode - Execute Pipeline
@@ -113,10 +115,10 @@ assign Mux_ALU_DataA_top = ASel_top ? PC_E : RD1_E;
 assign Mux_ALU_DataB_top = BSel_top ? Imm_E : RD2_E;
 
 ALU ALU_inst (
-  .ALU_Sel(ALUSel_top),
+  .ALU_Sel  (ALUSel_top),
   .operand_0(Mux_ALU_DataA_top),
   .operand_1(Mux_ALU_DataB_top),
-  .result(ALU_Result_E)
+  .result   (ALU_Result_E)
 );
 
 // Execute - Memory_access Pipeline
