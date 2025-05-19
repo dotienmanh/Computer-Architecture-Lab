@@ -5,13 +5,13 @@ module EX_MA(
   input [31:0] ALU_Result_E, 
   input [31:0] RD2_E,
   input [31:0] Instr_E,
-  output [31:0] PC_M,
-  output [31:0] ALU_Result_M,
-  output [31:0] RD2_M,
-  output [31:0] Instr_M
+  output reg [31:0] PC_M,
+  output reg [31:0] ALU_Result_M,
+  output reg [31:0] RD2_M,
+  output reg [31:0] Instr_M
 );
 
-always @( posedge clk, negedge rst_n ) begin 
+always @( posedge clk or negedge rst_n ) begin 
   if (~rst_n) begin
     PC_M         <= 0;
     ALU_Result_M <= 0;

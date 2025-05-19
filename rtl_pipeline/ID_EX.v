@@ -6,14 +6,14 @@ module ID_EX (
   input [31:0] RD2_D,
   input [31:0] Imm_D,
   input [31:0] Instr_D,
-  output [31:0] RD1_E,
-  output [31:0] RD2_E,
-  output [31:0] PC_E, 
-  output [31:0] Imm_E,
-  output [31:0] Instr_E
+  output reg [31:0] RD1_E,
+  output reg [31:0] RD2_E,
+  output reg [31:0] PC_E, 
+  output reg [31:0] Imm_E,
+  output reg [31:0] Instr_E
 );
 
-always @( posedge clk, negedge rst_n ) begin
+always @( posedge clk or negedge rst_n ) begin
   if (~rst_n) begin
     RD1_E <= 0;
     RD2_E <= 0;

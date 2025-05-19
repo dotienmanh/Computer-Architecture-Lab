@@ -5,13 +5,13 @@ module MA_WB (
   input [31:0] PC_Plus4_M,
   input [31:0] Read_Data_M,
   input [31:0] Instr_M,
-  output [31:0] ALU_Result_W,
-  output [31:0] PC_Plus4_W,
-  output [31:0] Read_Data_W,
-  output [31:0] Instr_W
+  output reg [31:0] ALU_Result_W,
+  output reg [31:0] PC_Plus4_W,
+  output reg [31:0] Read_Data_W,
+  output reg [31:0] Instr_W
 );
 
-always @( posedge clk, negedge rst_n ) begin
+always @( posedge clk or negedge rst_n ) begin
   if (~rst_n) begin
     ALU_Result_W <= 0;
     PC_Plus4_W <= 0;

@@ -7,7 +7,7 @@ module IF_ID (
   output reg [31:0] PC_D
 );
 
-always @( posedge clk, negedge rst_n) begin
+always @( posedge clk or negedge rst_n) begin
   if (~rst_n) begin
     Instr_D <= 0;
     PC_D <= 0;
